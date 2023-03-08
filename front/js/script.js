@@ -1,9 +1,9 @@
 // On récupere nos information depuis le fichier Product.js situé dans dossier back/models/
-const kanapData = await fetch("../back/models/Product.js");
+const kanapData = fetch("./back/models/Product.js");
 
-const resultKanap = kanapData.json();
+// const resultKanap = kanapData.json();
 
-const nosKanap = resultKanap.products[0];
+const nosKanap = kanapData.products[0];
 
 // On créer une balise a qui sera parente de nos élément et sera
 // elle meme enfant de notre section dans le html existant
