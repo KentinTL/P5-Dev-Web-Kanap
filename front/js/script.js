@@ -1,5 +1,9 @@
 // On récupere nos information depuis le fichier Product.js situé dans dossier back/models/
-// const kanapData = fetch("./back/models/Product.js");
+const kanapData = fetch("../../back/models/Product.js").then((response) =>
+  console.log(response),
+);
+
+// const products = require("../../back/models/Product.js");
 
 // const resultKanap = kanapData.json();
 
@@ -26,7 +30,7 @@ const nameElement = document.createElement("h3");
 
 // Création d'une description via l'élément p
 const descriptionElement = document.createElement("p");
-// nameElement.innerText = products.name;
+// descriptionElement.innerText = products.name;
 
 // La on creer notre ordre d'apparition
 
