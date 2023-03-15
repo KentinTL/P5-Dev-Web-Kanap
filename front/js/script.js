@@ -1,13 +1,9 @@
 // On récupere nos information depuis le fichier Product.js situé dans dossier back/models/
-const kanapData = fetch("../../back/models/Product.js").then((response) =>
-  console.log(response),
-);
+const reponse = await fetch("../../back/models/Product.js");
 
-// const products = require("../../back/models/Product.js");
+const pieces = await response.js();
 
-// const resultKanap = kanapData.json();
-
-// const nosKanap = kanapData.products[0];
+const article = pieces.products[0];
 
 // Ici on choisit l'élément qui sera le parent de nos éléments créer ci-dessus
 const itemsParent = document.querySelector("#items");
@@ -22,15 +18,15 @@ const articleItem = document.createElement("article");
 
 // Création d'un élément image
 const imageElement = document.createElement("img");
-// imageElement.src = products.imageUrl;
+imageElement.src = article.imageUrl;
 
 // Création d'un élément h3
 const nameElement = document.createElement("h3");
-// nameElement.innerText = products.name;
+nameElement.innerText = article.name;
 
 // Création d'une description via l'élément p
 const descriptionElement = document.createElement("p");
-// descriptionElement.innerText = products.name;
+descriptionElement.innerText = article.name;
 
 // La on creer notre ordre d'apparition
 
