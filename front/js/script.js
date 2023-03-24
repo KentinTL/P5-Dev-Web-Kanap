@@ -1,7 +1,7 @@
 // On récupere nos information depuis le fichier Product.js situé dans dossier back/models/
-const kanapData = fetch("http://localhost:3000/api/products/", {
- method: "GET"
-}).then(function(response) {
+let url = "http://localhost:3000/api/products/";
+const kanapData = fetch(url)
+.then(function(response) {
 
   return response.json();
 
@@ -14,7 +14,8 @@ const kanapData = fetch("http://localhost:3000/api/products/", {
     const product = products[i];
     // On créer une balise a qui sera parente de nos élément et sera
     // elle meme enfant de notre section dans le html existant
-    const linkItem = document.createElement("a",({href: "#"}));
+    const linkItem = document.createElement("a")
+    linkItem.href = "./product.html" + "?id=" + product._id;
     
     // On creer un article dans le quel seront nos éléments lui meme
     // enfant de notre balise a
@@ -23,9 +24,11 @@ const kanapData = fetch("http://localhost:3000/api/products/", {
     // Création d'un élément image
     const imageItem = document.createElement("img");
     imageItem.src = product.imageUrl;
+    // imageItem.alt
     
     // Création d'un élément h3
-    const nameItem = document.createElement("h3",({class: "productName"}));
+    const nameItem = document.createElement("h3");
+    nameItem.classList.add("productName");
     nameItem.innerText = product.name;
     
     // Création d'une description via l'élément p
