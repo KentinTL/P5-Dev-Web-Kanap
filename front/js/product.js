@@ -37,4 +37,27 @@ fetch("http://localhost:3000/api/products/" + id)
       selectParents.appendChild(optionColor);
       // document.getElementById('colors').innerHTML = '<option value="'+kanapColor+'">'+kanapColor+'</option>;'
     }
+
+    // Développement de l'envois des données en appuyant sur le bouton addToCart
+    let addButton = document.getElementById("addToCart");
+    addButton.addEventListener("click", function () {
+      let globalAdd = {
+        id: id,
+        color: ("color", selectParents.value),
+        quantity: ("quantity", document.getElementById("quantity").value),
+      };
+
+      let getkanapInfos = JSON.parse(localStorage.getItem("kanapInfos"));
+      // besoin d'une conditions pour vérifier si la variable getkanapInfos existe
+
+      // Condition pour vérifier si dans notre localstorage il existe déjà un id de même couleurs
+      // Si id avec même couleur existe déjà incrémenter la quantité
+
+      // Créer une variable qui sera = a getkanapInfos.find()
+
+      // NE PAS OUBLIER de mettre des alertes en cas de non sélections d'une couleur et/ou d'un quantité
+    });
   });
+// Infos Local Storage
+// Il faut une déclaration et un appel
+// La déclaration c'est localstorage.setItem("kanapInfos", informations ou variable qui sera déclaré au préalable avec un getItem()) cela permet de créer notre "objet"
