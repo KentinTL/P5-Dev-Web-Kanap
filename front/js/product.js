@@ -27,16 +27,17 @@ fetch("http://localhost:3000/api/products/" + id)
     kanapDescription.innerHTML = product.description;
     let kanapColors = product.colors;
 
+    
     for (let index = 0; index < kanapColors.length; index++) {
       //On boucle sur le tableau de couleurs
       let kanapColor = kanapColors[index];
-      let optionColor = document.createElement("option");
+      var selectParents = document.getElementById("colors");
+      var optionColor = document.createElement("option");
       optionColor.value = kanapColor;
       optionColor.innerHTML = kanapColor;
-      let selectParents = document.getElementById("colors");
       selectParents.appendChild(optionColor);
-      // document.getElementById('colors').innerHTML = '<option value="'+kanapColor+'">'+kanapColor+'</option>;'
     }
+
 
     // Développement de l'envois des données en appuyant sur le bouton addToCart
     let addButton = document.getElementById("addToCart");
@@ -47,15 +48,26 @@ fetch("http://localhost:3000/api/products/" + id)
         quantity: ("quantity", document.getElementById("quantity").value),
       };
 
+      let setkanapInfos = localStorage.setItem('kanapInfos', JSON.stringify(globalAdd));
       let getkanapInfos = JSON.parse(localStorage.getItem("kanapInfos"));
       // besoin d'une conditions pour vérifier si la variable getkanapInfos existe
+      if (!getkanapInfos) {
+        // NE PAS OUBLIER de mettre des alertes en cas de non sélections d'une couleur et/ou d'un quantité
+        if (getkanapInfos.color === "") {
+          alert("Veuillez sélectionnez la couleur")
+        } 
+        if (getkanapInfos.quantity === "0" || getkanapInfos.quantity === "") {
+          alert("Veuillez sélectionnez la quantité")
+        }
+        
+        // Condition pour vérifier si dans notre localstorage il existe déjà un id de même couleurs
+        // Si id avec même couleur existe déjà incrémenter la quantité
+        
+        // Créer une variable qui sera = a getkanapInfos.find()
+        
+    }
 
-      // Condition pour vérifier si dans notre localstorage il existe déjà un id de même couleurs
-      // Si id avec même couleur existe déjà incrémenter la quantité
 
-      // Créer une variable qui sera = a getkanapInfos.find()
-
-      // NE PAS OUBLIER de mettre des alertes en cas de non sélections d'une couleur et/ou d'un quantité
     });
   });
 // Infos Local Storage
