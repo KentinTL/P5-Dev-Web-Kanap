@@ -60,7 +60,7 @@ fetch("http://localhost:3000/api/products/" + id)
           );
           if (searchDetails) {
             let newQuantity =
-              parseInt(globalAdd.quantity) + parseInt(searchDetails.quantity);
+              parseInt(globalAdd.quantity) + parseInt(searchDetails.quantity);//ici on change le type "string" en int afin de pouvoir les additionner
             searchDetails.quantity = newQuantity;
             localStorage.setItem("kanapInfos", JSON.stringify(getkanapInfos));
           } else {
