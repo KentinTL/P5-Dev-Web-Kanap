@@ -11,6 +11,9 @@ function globalCart() {
     // Si données existentes alors :
     // On récupère le/les Item(s) qui est/sont dans le localStorage
     console.log("Il y a des item dans le localStorage");
+    // Ici on vient gérer les totaux "Quantité" et "Prix"
+    let totalPrice = 0;
+    let totalKanap = 0;
     for (let c = 0; c < getkanapInfos.length; c++) {
       // On stock dans une variable les données item par item 
       const item = getkanapInfos[c];
@@ -99,22 +102,19 @@ function globalCart() {
         const parentElement = document.querySelector("#cart__items");
         parentElement.appendChild(articleItem);
         
+        // Ici on calcul notre prix total
+        console.log(`totalPrice = ${totalPrice} + (${products.price} * ${item.quantity})`);
+        totalPrice = totalPrice + (products.price * item.quantity);
+        let totalPriceElement = document.getElementById("totalPrice");
+        totalPriceElement.innerHTML = totalPrice;
+        console.log(`totalPrice = ${totalPrice}`);
+        // Ici on calcul notre quantité total
+        console.log(`totalQuantity = ${totalKanap} + ${parseInt(item.quantity)}`)
+        totalKanap = totalKanap + parseInt(item.quantity);
+        let totalKanapElement = document.getElementById("totalQuantity");
+        totalKanapElement.innerHTML = totalKanap;
+        console.log(totalKanap);
       });
-      // Maintenant on vient gérer les totaux "Quantité" et "Prix"
-      function calcQuantity() {
-        quantityByKanap = item.quantity;
-        quantityByKanapParsed = parseInt(quantityByKanap);
-        if (getkanapInfos.length === 1){
-          console.log("Il n'y a qu'un Item dans le localSotrage");
-          let totalQuantity = quantityByKanapParsed
-          console.log(totalQuantity);
-        }else if (getkanapInfos.length > 1) {
-          console.log("Il y a plus d'un Item dans le localStorage");
-          let totalQuantity = quantityByKanapParsed + quantityByKanapParsed;
-          console.log(totalQuantity);
-        }
-      }
-      calcQuantity()
     }
   }
 }
