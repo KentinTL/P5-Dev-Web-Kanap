@@ -1,5 +1,5 @@
 // Ici on récupère les Items avec la clef "kanapInfos" dans notre localStorage
-let getkanapInfos = JSON.parse(localStorage.getItem("kanapInfos"));
+var getkanapInfos = JSON.parse(localStorage.getItem("kanapInfos"));
 console.log(getkanapInfos);
 function globalCart() {
   // On vient vérifier qu'il y a bien des données dans notre LocalStorage
@@ -86,6 +86,26 @@ function globalCart() {
         quantityItem.appendChild(quantityItemInput)
         settingsItem.appendChild(quantityItem);
 
+        quantityItemInput.addEventListener("change", function () {
+          if (getkanapInfos) {
+            let searchQuantity = getkanapInfos.find(
+              (e) => e.id === item.id && e.color === item.color, 
+            ); 
+            console.log("Je suis searchQuantity avant le PARSEINT" + searchQuantity.quantity);
+            if (searchQuantity) {
+              let newQuantity = parseInt(item.quantity) + parseInt(searchQuantity);
+              console.log("Je suis searQuantity " + searchQuantity);
+              searchQuantity.quantity = newQuantity;
+              console.log("Je suis newQuantity " + newQuantity);
+              localStorage.setItem("kanapInfos", JSON.stringify(getkanapInfos));
+            }
+            else{
+              getkanapInfos.push(item);
+              localStorage.setItem("kanapInfos", JSON.stringify(getkanapInfos));
+            }
+          }
+        })
+
         // Notre div pour le "Bouton Supprimer"
         let settingsdeleteItem = document.createElement("div");
         settingsdeleteItem.classList.add("cart__item__content__settings__delete")
@@ -94,6 +114,8 @@ function globalCart() {
         deleteItemP.innerHTML = "Supprimer";
         settingsdeleteItem.appendChild(deleteItemP);
         settingsItem.appendChild(settingsdeleteItem);
+        
+        // Ici j'ajoute mon envent suppression
 
         // On ajoute notre div "Quantité" et "Bouton Supprimer" notre div article
         articleItem.appendChild(settingsItem);
