@@ -87,16 +87,22 @@ function globalCart() {
         settingsItem.appendChild(quantityItem);
 
         quantityItemInput.addEventListener("change", function () {
+          let itemQuantity = parseInt(item.quantity);
+          console.log("je suis un test de " + itemQuantity);
+          let getNewInputQuantity = quantityItemInput.value;
+          console.log("Je suis un test de la valeur de l'input : " + getNewInputQuantity);
           if (getkanapInfos) {
             let searchQuantity = getkanapInfos.find(
               (e) => e.id === item.id && e.color === item.color, 
             ); 
-            console.log("Je suis searchQuantity avant le PARSEINT" + searchQuantity.quantity);
+            console.log("Je suis itemQuantity avant le calcul " + itemQuantity);
             if (searchQuantity) {
-              let newQuantity = parseInt(item.quantity) + parseInt(searchQuantity);
-              console.log("Je suis searQuantity " + searchQuantity);
-              searchQuantity.quantity = newQuantity;
+              console.log("Je suis searchQuantity avant le PARSEINT " + searchQuantity.quantity);
+              let newSearchQuantity = parseInt(searchQuantity.quantity);
+              console.log("Je suis newSearchQuantity " + newSearchQuantity);
+              let newQuantity = getNewInputQuantity;
               console.log("Je suis newQuantity " + newQuantity);
+              searchQuantity.quantity = newQuantity;
               localStorage.setItem("kanapInfos", JSON.stringify(getkanapInfos));
             }
             else{
