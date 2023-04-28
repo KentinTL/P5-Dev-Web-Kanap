@@ -104,6 +104,7 @@ function globalCart() {
               console.log("Je suis newQuantity " + newQuantity);
               searchQuantity.quantity = newQuantity;
               localStorage.setItem("kanapInfos", JSON.stringify(getkanapInfos));
+              window.location.reload();
             }
             else{
               getkanapInfos.push(item);
@@ -122,6 +123,9 @@ function globalCart() {
         settingsItem.appendChild(settingsdeleteItem);
         
         // Ici j'ajoute mon envent suppression
+        // deleteItemP.addEventListener("click", function() {
+          
+        // });
 
         // On ajoute notre div "Quantité" et "Bouton Supprimer" notre div article
         articleItem.appendChild(settingsItem);
