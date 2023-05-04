@@ -103,6 +103,13 @@ function globalCart() {
               let newQuantity = getNewInputQuantity;
               console.log("Je suis newQuantity " + newQuantity);
               searchQuantity.quantity = newQuantity;
+              // ICI on veut supprimer un article du panier si l'utilisateur déclare sa quantité a 0
+              // if (newQuantity == 0) {
+              //   console.log("YO c'est moi le new quantity qui est égale a 0");
+                
+              //   deleteIfNone(quantityItemInput)
+
+              // }
               localStorage.setItem("kanapInfos", JSON.stringify(getkanapInfos));
               window.location.reload();
             }
@@ -124,9 +131,22 @@ function globalCart() {
         
         // Ici j'ajoute mon envent suppression
         // deleteItemP.addEventListener("click", function() {
-          
+        //   let deleteAnItem = getKanapInfos.filter(
+        //     (e) => e.id != item.id || e.color != item.color,
+        //   );
+            
         // });
-
+        function deleteIfNone(id) {
+          localStorage.setItem("kanapInfos", JSON.stringify(id));
+          window.location.reload();
+        }
+        deleteItemP.addEventListener("click", function() {
+          let deleteAnItem = getkanapInfos.filter(
+            (e) => e.id != item.id || e.color != item.color,
+            );
+          deleteIfNone(deleteAnItem)
+        });
+          
         // On ajoute notre div "Quantité" et "Bouton Supprimer" notre div article
         articleItem.appendChild(settingsItem);
 
@@ -150,5 +170,9 @@ function globalCart() {
     }
   }
 }
+
+const classicTextRules = new RegExp("^(?:[a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]{1,50})(?:[ \-'][a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]{1,50})*$")
+const mailiRules = new RegExp("")
+const addressRules = new RegExp("^[0-9]+(?:,? [a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]+)+$")
 
 globalCart()
