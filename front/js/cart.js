@@ -171,8 +171,64 @@ function globalCart() {
   }
 }
 
-const classicTextRules = new RegExp("^(?:[a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]{1,50})(?:[ \-'][a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]{1,50})*$")
-const mailiRules = new RegExp("")
-const addressRules = new RegExp("^[0-9]+(?:,? [a-zA-ZàèìòùÀÈÌÒÙáéíóúýÁÉÍÓÚÝâêîôûÂÊÎÔÛãñõÃÑÕäëïöüÿÄËÏÖÜŸçÇßØøÅåÆæœ]+)+$")
+const cityNamesRules = /^[\p{L}\s'-]{2,256}$/u;
+const addressRules = /^\d{0,9}\s[\p{L}\s'-]{2,256}$/u;
+const mailRules = /^(?!^\.)(?!.*\.{2})[\w.]{2,256}@([a-zA-Z]{2,256}\.)+[a-zA-Z]{2,4}$/;
 
+let firstNameUser = document.getElementById("firsName");
+if (cityNamesRules.test(firstNameUser)) {
+  console.log("Le nom est valide");
+} else {
+  console.log("Le nom n'est pas valide");
+}
+
+let lastNameUser = document.getElementById("lastName");
+if (cityNamesRules.test(lastNameUser)) {
+  console.log("Le nom est valide");
+} else {
+  console.log("Le nom n'est pas valide");
+}
+
+let addressUser = document.getElementById("address");
+if (addressRules.test(addressUser)) {
+  console.log("L'adresse est valide");
+} else {
+  console.log("L'adresse n'est pas valide");
+}
+
+let cityUser = document.getElementById("city");
+if (cityNamesRules.test(cityUser)) {
+  console.log("La ville est valide");
+} else {
+  console.log("La ville n'est pas valide");
+}
+
+let mailUser = document.getElementById("email");
+if (mailRules.test(mailUser)) {
+  console.log("L'adresse e-mail est valide");
+} else {
+  console.log("L'adresse e-mail n'est pas valide");
+}
+
+const userInfos = {
+  prenom : firstNameUser,
+  nom : lastNameUser,
+  adrresse : addressUser,
+  ville : cityUser,
+  email : mailUser
+}
+
+function checkForm() {
+  let sendButton = getElementById("order");
+  sendButton.addEventListener("click", function() {
+    var getUserInfos = JSON.parse(localStorage.getItem("userInfos"));
+    if (getUserInfos) {
+      console.log("Chelou y'a déjà tes infos !");
+    } else {
+      getUserInfos.push(userInfos);
+      localStorage.setItem("userInfos", JSON.stringify(getUserInfos));
+    }
+
+  });
+}
 globalCart()
