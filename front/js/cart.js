@@ -171,16 +171,21 @@ function globalCart() {
   }
 }
 
-const cityNamesRules = /^[\p{L}\s'-]{2,256}$/u;
+const cityNamesRules = new RegExp (/^[\p{L}\s'-]{2,256}$/u);
 const addressRules = /^\d{0,9}\s[\p{L}\s'-]{2,256}$/u;
 const mailRules = /^(?!^\.)(?!.*\.{2})[\w.]{2,256}@([a-zA-Z]{2,256}\.)+[a-zA-Z]{2,4}$/;
+const form = document.querySelector(".cart__order__form")
 
-let firstNameUser = document.getElementById("firsName");
-if (cityNamesRules.test(firstNameUser)) {
-  console.log("Le nom est valide");
-} else {
-  console.log("Le nom n'est pas valide");
-}
+
+let firstNameUser = document.getElementById("firstName");
+firstNameUser.addEventListener("change", () => 
+{
+  if (cityNamesRules.test(firstNameUser.value)) {
+    console.log("Le nom est valide");
+  } else {
+    console.log("Le nom n'est pas valide");
+  }
+});
 
 let lastNameUser = document.getElementById("lastName");
 if (cityNamesRules.test(lastNameUser)) {
