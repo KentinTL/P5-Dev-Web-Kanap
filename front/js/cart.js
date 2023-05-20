@@ -172,68 +172,132 @@ function globalCart() {
 }
 
 const cityNamesRules = new RegExp (/^[\p{L}\s'-]{2,256}$/u);
-const addressRules = /^\d{0,9}\s[\p{L}\s'-]{2,256}$/u;
+const addressRules = /^(?:(?=\d{1,9}\b)\d{1,9}\s[\p{L}\s',-]{2,256}|\b[\p{L}\s',-]{2,256}\d{1,9}(?<=\b\d{1,9}))$/u;
 const mailRules = /^(?!^\.)(?!.*\.{2})[\w.]{2,256}@([a-zA-Z]{2,256}\.)+[a-zA-Z]{2,4}$/;
 const form = document.querySelector(".cart__order__form")
-
 
 let firstNameUser = document.getElementById("firstName");
 firstNameUser.addEventListener("change", () => 
 {
+  let errorMsg = document.getElementById("firstNameErrorMsg");
   if (cityNamesRules.test(firstNameUser.value)) {
     console.log("Le nom est valide");
+    errorMsg.textContent = "";
   } else {
     console.log("Le nom n'est pas valide");
+    errorMsg.textContent = "Votre prénom : " + firstNameUser.value + " n'est pas reconnu !";
   }
 });
 
 let lastNameUser = document.getElementById("lastName");
-if (cityNamesRules.test(lastNameUser)) {
-  console.log("Le nom est valide");
-} else {
-  console.log("Le nom n'est pas valide");
-}
+lastNameUser.addEventListener("change", () =>
+{
+  let errorMsg = document.getElementById("lastNameErrorMsg");
+  if (cityNamesRules.test(lastNameUser.value)) {
+    console.log("Le nom est valide");
+    errorMsg.textContent = "";
+  } else {
+    console.log("Le nom n'est pas valide");
+    errorMsg.textContent = "Votre nom : " + lastNameUser.value + " n'est pas reconnu !";
+  }
+});
 
 let addressUser = document.getElementById("address");
-if (addressRules.test(addressUser)) {
-  console.log("L'adresse est valide");
-} else {
-  console.log("L'adresse n'est pas valide");
-}
+addressUser.addEventListener("change", () =>
+{
+  let errorMsg = document.getElementById("addressErrorMsg");
+  if (addressRules.test(addressUser.value)) {
+    console.log("L'adresse est valide");
+    errorMsg.textContent = "";
+  } else {
+    console.log("L'adresse n'est pas valide");
+    errorMsg.textContent = "Votre adresse : " + addressUser.value + " n'est pas reconnu !";
+  }
+});
 
 let cityUser = document.getElementById("city");
-if (cityNamesRules.test(cityUser)) {
-  console.log("La ville est valide");
-} else {
-  console.log("La ville n'est pas valide");
-}
+cityUser.addEventListener("change", () =>
+{
+  let errorMsg = document.getElementById("cityErrorMsg");
+  if (cityNamesRules.test(cityUser.value)) {
+    console.log("La ville est valide");
+    errorMsg.textContent = "";
+  } else {
+    console.log("La ville n'est pas valide");
+    errorMsg.textContent = "Votre ville : " + cityUser.value + " n'est pas reconnu !";                        
+  }
+});
 
 let mailUser = document.getElementById("email");
-if (mailRules.test(mailUser)) {
-  console.log("L'adresse e-mail est valide");
-} else {
-  console.log("L'adresse e-mail n'est pas valide");
-}
+mailUser.addEventListener("change", () =>
+{
+  let errorMsg = document.getElementById("emailErrorMsg");
+  if (mailRules.test(mailUser.value)) {
+    console.log("L'adresse e-mail est valide");
+    errorMsg.textContent = "";
+  } else {
+    console.log("L'adresse e-mail n'est pas valide");
+    errorMsg.textContent = "Votre adresse mail : " + mailUser.value + " n'est pas reconnu !"; 
+  }
+});
 
-const userInfos = {
-  prenom : firstNameUser,
-  nom : lastNameUser,
-  adrresse : addressUser,
-  ville : cityUser,
-  email : mailUser
-}
 
 function checkForm() {
-  let sendButton = getElementById("order");
+  // envoyer les infos plus les id de produits vers fetch order en method post
+  // Gerer la method post le body et le header
+  let sendButton = document.getElementById("order");
   sendButton.addEventListener("click", function() {
-    var getUserInfos = JSON.parse(localStorage.getItem("userInfos"));
-    if (getUserInfos) {
-      console.log("Chelou y'a déjà tes infos !");
-    } else {
-      getUserInfos.push(userInfos);
-      localStorage.setItem("userInfos", JSON.stringify(getUserInfos));
+    let getKanapInfos = JSON.parse(localStorage.getItem("kanapInfos"));
+    if (getKanapInfos) {
+      // let searchId = getKanapInfos.find(
+      //   (element) => element.id 
+      //   ) 
+      for (let e = 0; e < getKanapInfos.length; e++) {
+        var kanap = getKanapInfos[e];
+        console.log(kanap.id);
+      }
+      console.log(kanap.id);
+      const order = {
+        contact:{
+          firstName : firstNameUser.value,
+          lastName : lastNameUser.value,
+          address : addressUser.value,
+          city : cityUser.value,
+          email : mailUser.value
+        },
+        products:{
+          productID : kanap.id,
+        }
+      } 
+      console.log(order);
+      
+      if (order.contact.firstName === "" ||order.contact.lastName === "" ||order.contact.address === "" ||order.contact.city === "" ||order.contact.email === "") {
+        alert("Veuillez remplir tout les champs si vous voulez valider votre commande")
+      }
+      else {
+        alert("Votre commande a été validé redirection...")
+        let url = "http://localhost:3000/api/product/order/"
+        const userData = fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'order'
+            },
+            body: JSON.stringify(order)
+          })
+          .then(function(response) {
+          
+            return response.json();
+          
+          })
+          .then(function(order){
+            console.log(order);
+          })
+          console.log(order.contact)
+        }
     }
-
   });
-}
-globalCart()
+};
+
+
+checkForm();
+globalCart();
