@@ -103,15 +103,8 @@ function globalCart() {
               let newQuantity = getNewInputQuantity;
               console.log("Je suis newQuantity " + newQuantity);
               searchQuantity.quantity = newQuantity;
-              // ICI on veut supprimer un article du panier si l'utilisateur déclare sa quantité a 0
-              // if (newQuantity == 0) {
-              //   console.log("YO c'est moi le new quantity qui est égale a 0");
-                
-              //   deleteIfNone(quantityItemInput)
-
-              // }
               localStorage.setItem("kanapInfos", JSON.stringify(getkanapInfos));
-              window.location.reload();
+              // window.location.reload();
             }
             else{
               getkanapInfos.push(item);
@@ -129,13 +122,6 @@ function globalCart() {
         settingsdeleteItem.appendChild(deleteItemP);
         settingsItem.appendChild(settingsdeleteItem);
         
-        // Ici j'ajoute mon envent suppression
-        // deleteItemP.addEventListener("click", function() {
-        //   let deleteAnItem = getKanapInfos.filter(
-        //     (e) => e.id != item.id || e.color != item.color,
-        //   );
-            
-        // });
         function deleteIfNone(id) {
           localStorage.setItem("kanapInfos", JSON.stringify(id));
           window.location.reload();
@@ -252,11 +238,13 @@ function checkForm() {
       // let searchId = getKanapInfos.find(
       //   (element) => element.id 
       //   ) 
-      for (let e = 0; e < getKanapInfos.length; e++) {
-        var kanap = getKanapInfos[e];
-        console.log(kanap.id);
-      }
-      console.log(kanap.id);
+      const kanaps = [];
+       for (let e = 0; e < getKanapInfos.length; e++) {
+         var kanap = getKanapInfos[e];
+         console.log(kanap.id);
+          kanaps.push(kanap.id);
+       }
+      // console.log(kanap.id);
       const order = {
         contact:{
           firstName : firstNameUser.value,
@@ -265,35 +253,37 @@ function checkForm() {
           city : cityUser.value,
           email : mailUser.value
         },
-        products:{
-          productID : kanap.id,
-        }
+        products: kanaps
       } 
       console.log(order);
       
-      if (order.contact.firstName === "" ||order.contact.lastName === "" ||order.contact.address === "" ||order.contact.city === "" ||order.contact.email === "") {
+      if (order.contact.firstName === ""
+      || order.contact.lastName === "" 
+      || order.contact.address === "" 
+      || order.contact.city === "" 
+      || order.contact.email === "") {
         alert("Veuillez remplir tout les champs si vous voulez valider votre commande")
       }
       else {
-        alert("Votre commande a été validé redirection...")
-        let url = "http://localhost:3000/api/product/order/"
-        const userData = fetch(url, {
+        alert("Votre commande a été validé redirection...");
+
+        let url = "http://localhost:3000/api/products/order/";
+        fetch(url, {
           method: 'POST',
           headers: {
-              'Content-Type': 'order'
-            },
-            body: JSON.stringify(order)
-          })
-          .then(function(response) {
-          
-            return response.json();
-          
-          })
-          .then(function(order){
-            console.log(order);
-          })
-          console.log(order.contact)
-        }
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(order)
+        }).then(function(response) { 
+          console.error(response);
+          return response.json() 
+        }).then(function(data) {
+          console.log("FUCK YOU", data);
+        }).catch(function(error){
+          console.error(error)
+        });
+      }
     }
   });
 };
