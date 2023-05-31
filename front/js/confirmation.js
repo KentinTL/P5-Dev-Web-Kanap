@@ -1,2 +1,3 @@
-// recuperation numero commande 
-// effacer localstorage et panier actuel
+// recuperation Order Id avec searchParams 
+// Afficher l'id dans ma page confirmation
+// Clear localstorage qui effacera panier actuel

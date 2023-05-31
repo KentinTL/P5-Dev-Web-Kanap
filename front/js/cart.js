@@ -21,8 +21,8 @@ function globalCart() {
       fetch("http://localhost:3000/api/products/" + item.id)
         .then(function(response) {
         return response.json();
-      })
-      .then(function(products){
+        })
+        .then(function(products){
         // Grace à notre item.id concaténer dans le fetch on récupère uniquement le/les Objet(s)
         // du Product.js correspondant à/aux id de notre localStorage
         console.log(products);
@@ -93,7 +93,7 @@ function globalCart() {
           console.log("Je suis un test de la valeur de l'input : " + getNewInputQuantity);
           if (getkanapInfos) {
             let searchQuantity = getkanapInfos.find(
-              (e) => e.id === item.id && e.color === item.color, 
+              (e) => e.id === item.id && e.color === item.color
             ); 
             console.log("Je suis itemQuantity avant le calcul " + itemQuantity);
             if (searchQuantity) {
@@ -104,7 +104,7 @@ function globalCart() {
               console.log("Je suis newQuantity " + newQuantity);
               searchQuantity.quantity = newQuantity;
               localStorage.setItem("kanapInfos", JSON.stringify(getkanapInfos));
-              // window.location.reload();
+              window.location.reload();
             }
             else{
               getkanapInfos.push(item);
@@ -235,12 +235,9 @@ function checkForm() {
   sendButton.addEventListener("click", function() {
     let getKanapInfos = JSON.parse(localStorage.getItem("kanapInfos"));
     if (getKanapInfos) {
-      // let searchId = getKanapInfos.find(
-      //   (element) => element.id 
-      //   ) 
       const kanaps = [];
-       for (let e = 0; e < getKanapInfos.length; e++) {
-         var kanap = getKanapInfos[e];
+       for (let kanap of getKanapInfos) {
+        //  var kanap = getKanapInfos[e];
          console.log(kanap.id);
           kanaps.push(kanap.id);
        }
@@ -267,22 +264,29 @@ function checkForm() {
       else {
         alert("Votre commande a été validé redirection...");
 
-        let url = "http://localhost:3000/api/products/order/";
-        fetch(url, {
+        const options = {
           method: 'POST',
           headers: {
             "Accept": "application/json",
             "Content-Type": "application/json"
           },
           body: JSON.stringify(order)
-        }).then(function(response) { 
-          console.error(response);
-          return response.json() 
-        }).then(function(data) {
-          console.log("FUCK YOU", data);
-        }).catch(function(error){
-          console.error(error)
-        });
+        }
+
+        fetch("http://localhost:3000/api/products/order", options)
+          .then((response)=>response.json())
+          .then((data)=>{
+            console.log(data);
+            document.location.href = "confirmation.html?orderId=" + data.orderId;
+          });
+        //   .then(function(response) { 
+        //   console.error(response);
+        //   return response.json() 
+        // }).then(function(data) {
+        //   console.log("Je suis la data", data);
+        // }).catch(function(error){
+        //   console.error(error)
+        // });
       }
     }
   });
