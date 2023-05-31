@@ -122,10 +122,6 @@ function globalCart() {
         settingsdeleteItem.appendChild(deleteItemP);
         settingsItem.appendChild(settingsdeleteItem);
         
-        function deleteIfNone(id) {
-          localStorage.setItem("kanapInfos", JSON.stringify(id));
-          window.location.reload();
-        }
         deleteItemP.addEventListener("click", function() {
           let deleteAnItem = getkanapInfos.filter(
             (e) => e.id != item.id || e.color != item.color,
