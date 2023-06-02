@@ -59,6 +59,7 @@ function globalCart() {
         colorItem.innerHTML = item.color;
         let priceItem = document.createElement("p");
         priceItem.innerHTML = products.price + "€";
+        // import des éléments entre eux dans le HTMl
         descriptionItem.appendChild(nameItem);
         descriptionItem.appendChild(colorItem);
         descriptionItem.appendChild(priceItem);
@@ -81,29 +82,32 @@ function globalCart() {
         quantityItemInput.min = "1";
         quantityItemInput.max = "100";
         quantityItemInput.value = item.quantity;
-
+        // import des éléments entre eux dans le HTMl
         quantityItem.appendChild(quantityItemTxt);
         quantityItem.appendChild(quantityItemInput)
         settingsItem.appendChild(quantityItem);
 
+        // Fonction gérant la quantité dans le localStorage en fonction de celle changé dans l'input
         quantityItemInput.addEventListener("change", function () {
+          // récupération de la quantité dans le localStorage via l'élément item
           let itemQuantity = parseInt(item.quantity);
-          console.log("je suis un test de " + itemQuantity);
+          // Nouvelle quantité mise a jour
           let getNewInputQuantity = quantityItemInput.value;
-          console.log("Je suis un test de la valeur de l'input : " + getNewInputQuantity);
+          // Vérification du match entre les éléments du panier et du localStorage via id et color
           if (getkanapInfos) {
             let searchQuantity = getkanapInfos.find(
               (e) => e.id === item.id && e.color === item.color
             ); 
-            console.log("Je suis itemQuantity avant le calcul " + itemQuantity);
+            // On vient vérifier la quantité de Base
             if (searchQuantity) {
-              console.log("Je suis searchQuantity avant le PARSEINT " + searchQuantity.quantity);
+              // Ici on parse la quantité récupérer pour qu'elle passe de String a Int
               let newSearchQuantity = parseInt(searchQuantity.quantity);
               console.log("Je suis newSearchQuantity " + newSearchQuantity);
               let newQuantity = getNewInputQuantity;
               console.log("Je suis newQuantity " + newQuantity);
               searchQuantity.quantity = newQuantity;
               localStorage.setItem("kanapInfos", JSON.stringify(getkanapInfos));
+              // A chaque changement de quantité dans le html on reload la page pour le calcul quantité et total prix soit mis à jour
               window.location.reload();
             }
             else{
@@ -153,11 +157,17 @@ function globalCart() {
   }
 }
 
+// Ici on créer nos regex pour les nom prenom et villes qui sont relativement les mêmes
 const cityNamesRules = new RegExp (/^[\p{L}\s'-]{2,256}$/u);
+// Regex pour les Adresses
 const addressRules = /^(?:(?=\d{1,9}\b)\d{1,9}\s[\p{L}\s',-]{2,256}|\b[\p{L}\s',-]{2,256}\d{1,9}(?<=\b\d{1,9}))$/u;
+// Regex pour les mails 
 const mailRules = /^(?!^\.)(?!.*\.{2})[\w.]{2,256}@([a-zA-Z]{2,256}\.)+[a-zA-Z]{2,4}$/;
+
+// On créer la constante form qui récupère notre parent : formulaire html
 const form = document.querySelector(".cart__order__form")
 
+// On sélectionne notre input FirstName et on vérifie le matching entre ce qui est écrit dedans et notre regex
 let firstNameUser = document.getElementById("firstName");
 firstNameUser.addEventListener("change", () => 
 {
@@ -171,6 +181,7 @@ firstNameUser.addEventListener("change", () =>
   }
 });
 
+// On sélectionne notre input lastName et on vérifie le matching entre ce qui est écrit dedans et notre regex
 let lastNameUser = document.getElementById("lastName");
 lastNameUser.addEventListener("change", () =>
 {
@@ -184,6 +195,7 @@ lastNameUser.addEventListener("change", () =>
   }
 });
 
+// On sélectionne notre input address et on vérifie le matching entre ce qui est écrit dedans et notre regex
 let addressUser = document.getElementById("address");
 addressUser.addEventListener("change", () =>
 {
@@ -197,6 +209,7 @@ addressUser.addEventListener("change", () =>
   }
 });
 
+// On sélectionne notre input city et on vérifie le matching entre ce qui est écrit dedans et notre regex
 let cityUser = document.getElementById("city");
 cityUser.addEventListener("change", () =>
 {
@@ -210,6 +223,7 @@ cityUser.addEventListener("change", () =>
   }
 });
 
+// On sélectionne notre input email et on vérifie le matching entre ce qui est écrit dedans et notre regex
 let mailUser = document.getElementById("email");
 mailUser.addEventListener("change", () =>
 {
@@ -223,22 +237,24 @@ mailUser.addEventListener("change", () =>
   }
 });
 
-
+// Création d'une fonctions checkForm qui va envoyer le formulaire au backend
+// Ainsi que vérifier si les champs d'input sont correctements remplis 
 function checkForm() {
-  // envoyer les infos plus les id de produits vers fetch order en method post
-  // Gerer la method post le body et le header
+  // Déclaration d'une variable qui récupère l'id du button order
   let sendButton = document.getElementById("order");
+  // Création d'un évennement click sur le button orde
   sendButton.addEventListener("click", function() {
     let getKanapInfos = JSON.parse(localStorage.getItem("kanapInfos"));
+    // On boucle sur les éléments dans le localStorage pour récupérer les id de ces mêmes éléments
     if (getKanapInfos) {
       const kanaps = [];
        for (let kanap of getKanapInfos) {
-        //  var kanap = getKanapInfos[e];
          console.log(kanap.id);
           kanaps.push(kanap.id);
        }
-      // console.log(kanap.id);
-      const order = {
+      //  On créer notre constante order contenant l'objet contact et les paramètre qui seront envoyé au backend
+      // Et l'obejt products qui sera égale aà notre tableau d'id kanap déclaré ci-dessus
+       const order = {
         contact:{
           firstName : firstNameUser.value,
           lastName : lastNameUser.value,
@@ -250,6 +266,8 @@ function checkForm() {
       } 
       console.log(order);
       
+      // ICI on vérifie que les champs de formulaire ne soit pas vide
+      // On déclenche une alerte si l'un d'entre eux l'est
       if (order.contact.firstName === ""
       || order.contact.lastName === "" 
       || order.contact.address === "" 
@@ -259,7 +277,7 @@ function checkForm() {
       }
       else {
         alert("Votre commande a été validé redirection...");
-
+        // On déclare notre options de fecth avec la method le header et le body
         const options = {
           method: 'POST',
           headers: {
@@ -268,26 +286,18 @@ function checkForm() {
           },
           body: JSON.stringify(order)
         }
-
+        // Ici on fetch notre api avec nos options déclaré au préalable
         fetch("http://localhost:3000/api/products/order", options)
           .then((response)=>response.json())
           .then((data)=>{
             console.log(data);
+            // Enfin on se déplace vers la page de confirmation
             document.location.href = "confirmation.html?orderId=" + data.orderId;
           });
-        //   .then(function(response) { 
-        //   console.error(response);
-        //   return response.json() 
-        // }).then(function(data) {
-        //   console.log("Je suis la data", data);
-        // }).catch(function(error){
-        //   console.error(error)
-        // });
       }
     }
   });
 };
-
-
+// On fait appel à nos fonctions pour le bon fonctionnement du code
 checkForm();
 globalCart();

@@ -74,13 +74,5 @@ fetch("http://localhost:3000/api/products/" + id)
         }
         alert("Félicitations vous avez envoyé un canapé dans votre panier");
       }
-
-      // Condition pour vérifier si dans notre localstorage il existe déjà un id de même couleurs
-      // Si id avec même couleur existe déjà incrémenter la quantité
-
-      // Créer une variable qui sera = a getkanapInfos.find()
     });
   });
-// Infos Local Storage
-// Il faut une déclaration et un appel
-// La déclaration c'est localstorage.setItem("kanapInfos", informations ou variable qui sera déclaré au préalable avec un getItem()) cela permet de créer notre "objet"
