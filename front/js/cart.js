@@ -275,6 +275,9 @@ function checkForm() {
       || order.contact.email === "") {
         alert("Veuillez remplir tout les champs si vous voulez valider votre commande")
       }
+      // else if(errorMsg != "") {
+      //   alert("Veuillez remplir tout les champs si vous voulez valider votre commande")
+      // }
       else {
         alert("Votre commande a été validé redirection...");
         // On déclare notre options de fecth avec la method le header et le body

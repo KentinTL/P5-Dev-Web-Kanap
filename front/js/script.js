@@ -24,6 +24,7 @@ const kanapData = fetch(url)
     // Création d'un élément image
     const imageItem = document.createElement("img");
     imageItem.src = product.imageUrl;
+    imageItem.alt = product.altTxt;
     
     // Création d'un élément h3
     const nameItem = document.createElement("h3");
