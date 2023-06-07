@@ -264,8 +264,13 @@ function checkForm() {
         },
         products: kanaps
       } 
-      console.log(order);
       
+      let firstNameErrorMsg = document.getElementById("firstNameErrorMsg");
+      let lastNameErrorMsg = document.getElementById("lastNameErrorMsg");
+      let addressErrorMsg = document.getElementById("addressErrorMsg");
+      let cityErrorMsg = document.getElementById("cityErrorMsg");
+      let emailErrorMsg = document.getElementById("emailErrorMsg");
+
       // ICI on vérifie que les champs de formulaire ne soit pas vide
       // On déclenche une alerte si l'un d'entre eux l'est
       if (order.contact.firstName === ""
@@ -275,9 +280,15 @@ function checkForm() {
       || order.contact.email === "") {
         alert("Veuillez remplir tout les champs si vous voulez valider votre commande")
       }
-      // else if(errorMsg != "") {
-      //   alert("Veuillez remplir tout les champs si vous voulez valider votre commande")
-      // }
+      else if(
+        firstNameErrorMsg.textContent != ""
+        || lastNameErrorMsg.textContent != ""
+        || addressErrorMsg.textContent != ""
+        || cityErrorMsg.textContent != ""
+        || emailErrorMsg.textContent != ""
+      ) {
+        alert("Veuillez remplir les champs sans erreurs")
+      }
       else {
         alert("Votre commande a été validé redirection...");
         // On déclare notre options de fecth avec la method le header et le body
