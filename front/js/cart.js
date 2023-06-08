@@ -304,7 +304,6 @@ function checkForm() {
         fetch("http://localhost:3000/api/products/order", options)
           .then((response)=>response.json())
           .then((data)=>{
-            console.log(data);
             // Enfin on se déplace vers la page de confirmation
             document.location.href = "confirmation.html?orderId=" + data.orderId;
           });
